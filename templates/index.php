@@ -30,7 +30,7 @@
                                 <span class="lot__cost"><?=price_format(htmlspecialchars($lot['price']))?><!--<b class="rub">р</b>--></span>
                             </div>
                             <div class="lot__timer timer">
-                                12:23
+                                <?=$interval_hours?>
                             </div>
                         </div>
                     </div>

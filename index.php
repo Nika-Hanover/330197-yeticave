@@ -6,6 +6,11 @@ function price_format($number){
 };
 $is_auth = rand(0, 1);
 
+date_default_timezone_set('Europe/Kiev');
+$current_date = strtotime('now');
+$next_midnight = strtotime('tomorrow');
+$interval_hours = date('H:i', ($next_midnight - $current_date));
+
 $user_name = 'Nika'; // укажите здесь ваше имя
 $category = ["Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное"];
 $lots_list = [
@@ -41,7 +46,10 @@ $lots_list = [
             ]
 ];
 require_once('functions.php');
-$page_content = include_template('index.php',['category' => $category, 'lots_list' => $lots_list]);
+$page_content = include_template('index.php',['category' => $category,
+                                            'lots_list' => $lots_list,
+                                            'interval_hours' => $interval_hours
+                                            ]);
 $data = [
     'content' => $page_content,
     'title' => "Главная",
