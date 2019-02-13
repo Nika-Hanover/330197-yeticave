@@ -12,9 +12,9 @@ create table categories (
 create table lots (
 	id int auto_increment primary key,
     date_creation TIMESTAMP default current_timestamp,
-    lot_name char(30) not null,
-    description char(100) not null,
-    image char(100) not null,
+    lot_name char(255) not null,
+    description text not null,
+    image char(255) not null,
     start_price int not null,
     step int not null,
     category_id int not null,
@@ -29,7 +29,7 @@ create table users (
     user_name char(30) not null,
     email char(128) not null unique,
     pass char(100) not null,
-    avatar char(100),
+    avatar char(100) default 'img/user.png',
     contact char(200) not null
 );
 
@@ -40,6 +40,3 @@ create table bets (
     user_id int not null,
     lot_id int not null
 );
-
-insert into categories (categ_name) 
-values ("Доски и лыжи"), ("Крепления"), ("Ботинки"), ("Одежда"), ("Инструменты"), ("Разное");
