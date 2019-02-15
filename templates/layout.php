@@ -51,7 +51,7 @@
             <!--заполните этот список из массива категорий-->
             <?foreach ($category as $n => $category_item):?>
                 <li class="nav__item">
-                    <a href="pages/all-lots.html"><?=htmlspecialchars($category_item)?></a>
+                    <a href="pages/all-lots.html"><?=htmlspecialchars($category_item['name'])?></a>
                 </li>
             <?endforeach?>
         </ul>
