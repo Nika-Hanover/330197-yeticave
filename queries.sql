@@ -13,10 +13,10 @@ order by date_creation desc;
 
 
 /*Показать лот по его id. Получите также название категории, к которой принадлежит лот*/
-select l.*, c.categ_name
+select l.id, l.date_creation, l.lot_name, l.description, l.image, l.start_price, l.step, l.date_close, c.categ_name
 from lots l
 join categories c on l.category_id = c.id
-where l.id = 5;
+where l.id = 0;
 
 
 /*Обновить название лота по его идентификатору*/
@@ -26,12 +26,20 @@ commit;
 
 
 /*получить список самых свежих ставок для лота по его идентификатору*/
-select b.*
+select b.id, b.date_bet, b.amount, b.user_id, b.lot_id, u.user_name
 from bets b
+join users u on b.user_id = u.id
 where b.lot_id = 3
-order by b.date_bet desc
-limit 3;
+order by b.date_bet desc;
 
 
 select * from lots;
 delete from lots where id in(21,22);
+
+select * from users;
+
+select b.id, b.date_bet, b.amount, b.user_id, b.lot_id, u.user_name
+              from bets b
+              join users u on b.user_id = u.id
+              where b.lot_id = 23
+              order by b.date_bet desc;

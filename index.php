@@ -1,11 +1,7 @@
 <?php
+define('BASE_DIR', realpath('.'));
 require_once('functions.php');
 
-function price_format($number){
-    $number = ceil($number);
-    $number = number_format($number, 0, ',', ' ');
-    return $number.' '.'&#8381;';
-};
 $is_auth = rand(0, 1);
 
 date_default_timezone_set('Europe/Kiev');
@@ -30,12 +26,13 @@ if($connect == false) {
     exit();
 }
 
-$query_lots = "select l.lot_name name, c.categ_name category_name, l.start_price price, l.image img, l.step 
+$query_lots = "select l.id, l.lot_name, c.categ_name, l.start_price, l.image, l.step
         from lots l
         join categories c on l.category_id = c.id
         where date_format(date_close,'%Y-%m-%d') > date_format(SYSDATE(),'%Y-%m-%d')
-        order by date_creation desc";
-$query_categories = "select categ_name name from categories";
+        order by date_creation desc
+        limit 6";
+$query_categories = "select categ_name from categories";
 
 $res_lots = mysqli_query($connect, $query_lots);
 $res_categories = mysqli_query($connect, $query_categories);
@@ -56,7 +53,7 @@ if (!$res_lots || !$res_categories || $cat_num == 0) {
     $html = include_template('layout.php', $data);
     echo $html;
     exit();
-} 
+}
 
 $category = mysqli_fetch_all($res_categories, MYSQLI_ASSOC);
 $lots_list = mysqli_fetch_all($res_lots, MYSQLI_ASSOC);
