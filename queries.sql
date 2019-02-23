@@ -24,7 +24,14 @@ update lots set lot_name = 'Супер классная куртка для сн
 where id = 5;
 commit;
 
+/*Обновить url картинки лота*/
+update lots set image = concat('/',image) where id>0;
 
+delete from lots where DATE(date_creation) = CURDATE() and id>0;
+
+select * from lots;
+
+rollback;
 /*получить список самых свежих ставок для лота по его идентификатору*/
 select b.id, b.date_bet, b.amount, b.user_id, b.lot_id, u.user_name
 from bets b
@@ -34,9 +41,11 @@ order by b.date_bet desc;
 
 
 select * from lots;
-delete from lots where id in(21,22);
+delete from lots where id =32;
 
 select * from users;
+
+select * from categories;
 
 select b.id, b.date_bet, b.amount, b.user_id, b.lot_id, u.user_name
               from bets b

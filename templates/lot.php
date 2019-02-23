@@ -13,7 +13,7 @@
       <div class="lot-item__content">
         <div class="lot-item__left">
           <div class="lot-item__image">
-            <img src="<?= "/".htmlspecialchars($lot['image']) ?>" width="730" height="548" alt="<?= htmlspecialchars($lot['lot_name'])?>">
+            <img src="<?= htmlspecialchars($lot['image']) ?>" width="730" height="548" alt="<?= htmlspecialchars($lot['lot_name'])?>">
           </div>
           <p class="lot-item__category">Категория: <span><?= htmlspecialchars($lot['categ_name'])?></span></p>
           <p class="lot-item__description"><?= htmlspecialchars($lot['description'])?></p>
@@ -35,8 +35,8 @@
             <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post">
               <p class="lot-item__form-item form__item form__item--invalid">
                 <label for="cost">Ваша ставка</label>
-                <input id="cost" type="text" name="cost" placeholder="12 000">
-                <span class="form__error">Введите наименование лота</span>
+                <input id="cost" type="text" name="cost" placeholder="<?= htmlspecialchars($lot['step']) ?>">
+                <span class="form__error">Сделайте Вашу ставку</span>
               </p>
               <button type="submit" class="button">Сделать ставку</button>
             </form>

@@ -1,6 +1,7 @@
 <?php
 define('BASE_DIR', realpath('.'));
 require_once('functions.php');
+require_once('connect.php');
 
 $is_auth = rand(0, 1);
 
@@ -8,23 +9,6 @@ date_default_timezone_set('Europe/Kiev');
 $current_date = strtotime('now');
 $next_midnight = strtotime('tomorrow');
 $interval_hours = date('H:i', ($next_midnight - $current_date));
-
-$connect = mysqli_connect('localhost', 'root', '', 'yeticave');
-
-if($connect == false) {
-    $error = "Ошибка подключения: " . mysqli_connect_error();
-    $page_content = include_template('error.php',['error' => $error]);
-    $data = [
-        'content' => $page_content,
-        'title' => "Главная",
-        'is_auth' => $is_auth,
-        'user_name' => '',
-        'category' => []
-    ];
-    $html = include_template('layout.php', $data);
-    echo $html;
-    exit();
-}
 
 $query_lots = "select l.id, l.lot_name, c.categ_name, l.start_price, l.image, l.step
         from lots l
@@ -50,6 +34,7 @@ if (!$res_lots || !$res_categories || $cat_num == 0) {
         'user_name' => '',
         'category' => []
     ];
+    header($_SERVER['SERVER_PROTOCOL']." 404 Not Found");
     $html = include_template('layout.php', $data);
     echo $html;
     exit();

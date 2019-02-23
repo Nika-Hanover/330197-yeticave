@@ -1,6 +1,7 @@
 <?php
 define('BASE_DIR', realpath('..'));
 require_once('../functions.php');
+require_once('../connect.php');
 
 $id = intval($_GET['id']);
 $is_auth = rand(0, 1);
@@ -10,23 +11,6 @@ date_default_timezone_set('Europe/Kiev');
 $current_date = strtotime('now');
 $next_midnight = strtotime('tomorrow');
 $interval_hours = date('H:i', ($next_midnight - $current_date));
-
-$connect = mysqli_connect('localhost', 'root', '', 'yeticave');
-
-if($connect == false) {
-    $error = "Ошибка подключения: " . mysqli_connect_error();
-    $page_content = include_template('error.php',['error' => $error]);
-    $data = [
-        'content' => $page_content,
-        'title' => "Главная",
-        'is_auth' => $is_auth,
-        'user_name' => '',
-        'category' => []
-    ];
-    $html = include_template('layout.php', $data);
-    echo $html;
-    exit();
-}
 
 $query_categories = "select categ_name from categories";
 $query_lot = "select l.id, l.date_creation, l.lot_name, l.description, l.image, l.start_price, l.step, l.date_close, c.categ_name
@@ -59,7 +43,7 @@ if (!$res_lot || !$res_categories || $cat_num == 0) {
         'user_name' => '',
         'category' => []
     ];
-
+    header($_SERVER['SERVER_PROTOCOL']." 404 Not Found");
     $html = include_template('layout.php', $data);
     echo $html;
     exit();
@@ -70,6 +54,7 @@ $lot = mysqli_fetch_assoc($res_lot);
 $bets = mysqli_fetch_all($res_bets, MYSQLI_ASSOC);
 
 if ($lot_num == 0){
+  header($_SERVER['SERVER_PROTOCOL']." 404 Not Found");
   $page_content = include_template('404.php',['category' => $category]);
 
 }
