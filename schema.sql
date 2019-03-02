@@ -32,6 +32,9 @@ create table users (
     avatar char(100) default 'img/user.png',
     contact char(200) not null
 );
+alter table users modify email char(255);
+alter table users modify contact char(255);
+
 
 create table bets (
 	id int auto_increment primary key,
@@ -40,3 +43,4 @@ create table bets (
     user_id int not null,
     lot_id int not null
 );
+

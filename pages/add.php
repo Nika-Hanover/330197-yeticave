@@ -89,13 +89,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         elseif ($file_type == 'image/jpeg') {
             $file_name = uniqid().'.jpeg';
         }
-        // if($file_type !== 'image/png' || $file_type !== 'image/jpeg'){
+        // if($file_type !== 'image/png' && $file_type !== 'image/jpeg'){
         else{
             $errors['photo2'] = "Загрузите картинку в одном из форматов: .png, .jpg, .jpeg";
             $file_name = "";
             $file_url = "";
         }
-        if ($file_size > 200000) {
+        if ($file_size > 2000000) {
             $errors['photo2'] = "Загрузите файл не больше 2Мб";
             $file_name = "";
             $file_url = "";

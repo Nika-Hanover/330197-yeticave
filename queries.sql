@@ -30,7 +30,10 @@ update lots set image = concat('/',image) where id>0;
 delete from lots where DATE(date_creation) = CURDATE() and id>0;
 
 select * from lots;
+select * from users;
 
+delete from users where DATE(date_reg) = CURDATE() and id>0;
+ 
 rollback;
 /*получить список самых свежих ставок для лота по его идентификатору*/
 select b.id, b.date_bet, b.amount, b.user_id, b.lot_id, u.user_name

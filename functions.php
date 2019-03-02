@@ -2,16 +2,16 @@
 require_once('connect.php');
 
 function include_template($name, $data = null) {
-    $name = BASE_DIR.'/templates/' . $name;
+    $file_template_name = BASE_DIR.'/templates/' . $name;
     $result = '';
 
-    if (!is_readable($name)) {
+    if (!is_readable($file_template_name)) {
         return $result;
     }
-
+   
     ob_start();
     extract($data);
-    require $name;
+    require $file_template_name;
 
     $result = ob_get_clean();
     return $result;

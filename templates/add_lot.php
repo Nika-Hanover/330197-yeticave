@@ -37,12 +37,12 @@
         <span class="form__error"><?= $errors['message'] ?></span>
         <?endif?>
       </div>
-      <div class="form__item form__item--file <? isset($errors['message']) ? 'form__item--invalid' : 'form__item--uploaded' ?>"> <!-- form__item--uploaded -->
+      <div class="form__item form__item--file <? isset($errors['photo2']) ? 'form__item--invalid' : 'form__item--uploaded' ?>"> <!-- form__item--uploaded -->
         <label>Изображение</label>
         <div class="preview">
           <button class="preview__remove" type="button">x</button>
           <div class="preview__img">
-            <? if(isset($errors['message'])): ?>
+            <? if(!isset($errors['photo2']) && $file_url): ?>
             <img src="<? $file_url ?>" width="113" height="113" alt="Изображение лота">
             <? endif ?>
           </div>
