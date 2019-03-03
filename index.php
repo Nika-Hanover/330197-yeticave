@@ -2,8 +2,9 @@
 define('BASE_DIR', realpath('.'));
 require_once('functions.php');
 require_once('connect.php');
+session_start();
 
-$is_auth = rand(0, 1);
+$user_name = $_SESSION['user']['user_name'] ?? ''; // укажите здесь ваше имя
 
 date_default_timezone_set('Europe/Kiev');
 $current_date = strtotime('now');
@@ -30,7 +31,6 @@ if (!$res_lots || !$res_categories || $cat_num == 0) {
     $data = [
         'content' => $page_content,
         'title' => "Главная",
-        'is_auth' => $is_auth,
         'user_name' => '',
         'category' => []
     ];
@@ -43,9 +43,6 @@ if (!$res_lots || !$res_categories || $cat_num == 0) {
 $category = mysqli_fetch_all($res_categories, MYSQLI_ASSOC);
 $lots_list = mysqli_fetch_all($res_lots, MYSQLI_ASSOC);
 
-
-$user_name = 'Nika'; // укажите здесь ваше имя
-
 $page_content = include_template('index.php',['category' => $category,
                                             'lots_list' => $lots_list,
                                             'interval_hours' => $interval_hours
@@ -53,9 +50,9 @@ $page_content = include_template('index.php',['category' => $category,
 $data = [
     'content' => $page_content,
     'title' => "Главная",
-    'is_auth' => $is_auth,
     'user_name' => $user_name,
     'category' => $category
 ];
+
 $html = include_template('layout.php', $data);
 echo $html;

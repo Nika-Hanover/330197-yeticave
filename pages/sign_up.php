@@ -135,7 +135,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $stmt = db_get_prepare_stmt($connect, $sql, [
         strip_tags($register['name']), 
         strip_tags($register['email']),
-        strip_tags(password_hash($register['password'], PASSWORD_DEFAULT)),
+        password_hash($register['password'], PASSWORD_DEFAULT),
         strip_tags($file_url),
         strip_tags($register['message'])
     ]);
@@ -143,7 +143,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     $new_id = mysqli_insert_id($connect);
     if($res){
-        header("Location: /pages/login.html");
+        header("Location: /pages/login.php");
     }
     /*$page_content = include_template('succsess.php',['category' => $category]);*/
 }

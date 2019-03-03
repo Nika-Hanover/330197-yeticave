@@ -2,14 +2,13 @@
 define('BASE_DIR', realpath('..'));
 require_once('../functions.php');
 require_once('../connect.php');
+session_start();
 
+$user_name = $_SESSION['user']['user_name'] ?? '';
 date_default_timezone_set('Europe/Kiev');
 $current_date = strtotime('now');
 $min_date = strtotime('tomorrow');
 $max_date = strtotime('+1 year');
-
-$is_auth = rand(0, 1);
-$user_name = 'Nika'; // укажите здесь ваше имя
 $file_url = "";
 
 /*Variables for saving data from submited form*/
@@ -120,7 +119,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $data = [
         'content' => $page_content,
         'title' => "Главная",
-        'is_auth' => $is_auth,
         'user_name' => $user_name,
         'category' => $category
         ];
@@ -150,6 +148,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
     /*$page_content = include_template('succsess.php',['category' => $category]);*/
 }
+elseif(!isset($_SESSION['user'])) {
+    header($_SERVER['SERVER_PROTOCOL']." 403 Forbidden");
+    $page_content = include_template('403.php',['category' => $category]);
+
+}
 else {
     $page_content = include_template('add_lot.php',['category' => $category ,
                                                     'lot_name' => $lot_name,
@@ -164,7 +167,6 @@ else {
 $data = [
         'content' => $page_content,
         'title' => "Главная",
-        'is_auth' => $is_auth,
         'user_name' => $user_name,
         'category' => $category
     ];

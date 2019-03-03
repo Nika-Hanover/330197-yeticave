@@ -253,6 +253,7 @@ main.container {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  flex-direction: column;
 }
 
 .user-menu__image {
@@ -379,6 +380,7 @@ main.container {
 .nav {
   background-color: #ffffff;
   border-bottom: 1px solid #e1e6e7;
+  display: flex;
 }
 
 .nav__list {
