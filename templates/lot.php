@@ -7,7 +7,7 @@
         <?endforeach?>
       </ul>
     </nav>
-    
+
     <section class="lot-item container">
       <h2><?= htmlspecialchars($lot['lot_name']) ?></h2>
       <div class="lot-item__content">
@@ -27,17 +27,19 @@
             <div class="lot-item__cost-state">
               <div class="lot-item__rate">
                 <span class="lot-item__amount">Текущая цена</span>
-                <span class="lot-item__cost"><?= price_format(htmlspecialchars($lot['start_price']))?></span>
+                <span class="lot-item__cost"><?= price_format(htmlspecialchars($lot['current_price'] ?? $lot['start_price']))?></span>
               </div>
               <div class="lot-item__min-cost">
-                Мин. ставка <span><?= price_format(htmlspecialchars($lot['step']))?></span>
+                Мин. ставка <span><?= price_format(htmlspecialchars($min_bet))?></span>
               </div>
             </div>
-            <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post">
-              <p class="lot-item__form-item form__item form__item--invalid">
+            <form class="lot-item__form <? (isset($errors) && count($errors) > 0) ? 'form--invalid' : ''?>" action="/pages/lot.php?id=<?= $lot['id'] ?>" method="post">
+              <p class="lot-item__form-item form__item">
                 <label for="cost">Ваша ставка</label>
-                <input id="cost" type="text" name="cost" placeholder="<?= htmlspecialchars($lot['step']) ?>">
-                <span class="form__error">Сделайте Вашу ставку</span>
+                <input id="cost <?= isset($errors['cost']) ? 'form__item--invalid' : '' ?>" type="text" name="cost" placeholder="<?= htmlspecialchars($min_bet) ?>">
+                <? if(isset($errors['cost'])):?>
+                <span class="form__error" style="display: block"><?= $errors['cost']?></span> <!-- Сделайте Вашу ставку -->
+                <? endif ?>
               </p>
               <button type="submit" class="button">Сделать ставку</button>
             </form>

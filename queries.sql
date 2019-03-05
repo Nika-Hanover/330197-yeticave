@@ -32,6 +32,8 @@ delete from lots where DATE(date_creation) = CURDATE() and id>0;
 select * from lots;
 select * from users;
 
+select id, user_name, email, pass, avatar, contact from users where email = 'mail_mail@mail.com';
+
 delete from users where DATE(date_reg) = CURDATE() and id>0;
  
 rollback;
@@ -46,6 +48,13 @@ order by b.date_bet desc;
 select * from lots;
 delete from lots where id =32;
 
+select l.id, l.lot_name, l.start_price, max(b.amount) current_price
+from lots l
+left join bets b on l.id = b.lot_id
+where l.id= 29;
+
+
+
 select * from users;
 
 select * from categories;
@@ -55,3 +64,23 @@ select b.id, b.date_bet, b.amount, b.user_id, b.lot_id, u.user_name
               join users u on b.user_id = u.id
               where b.lot_id = 23
               order by b.date_bet desc;
+
+select * from bets b;
+
+/*Обновляем текущую стоимость лота по максимальной ставке*/
+update lots l set l.start_price = (select max(amount) max_amount from bets b where l.id = b.lot_id)
+where l.id = 29;
+
+update lots l set l.current_price = (select max(amount) max_amount from bets b where l.id = b.lot_id)
+where l.id = 29;
+
+
+rollback;
+
+select l.start_price, l.step, b.max_amount 
+from lots l
+left join (select lot_id, max(amount) max_amount from bets group by lot_id) b on l.id = b.lot_id
+where l.id=29;
+
+update lots l set l.start_price =21545
+where l.id = 29;

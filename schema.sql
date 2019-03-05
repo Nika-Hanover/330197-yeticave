@@ -23,6 +23,8 @@ create table lots (
     author_id int not null
 );
 
+alter table lots add column current_price int;
+
 create table users (
 	id int auto_increment primary key,
     date_reg TIMESTAMP default current_timestamp,

@@ -11,7 +11,7 @@ $current_date = strtotime('now');
 $next_midnight = strtotime('tomorrow');
 $interval_hours = date('H:i', ($next_midnight - $current_date));
 
-$query_lots = "select l.id, l.lot_name, c.categ_name, l.start_price, l.image, l.step
+$query_lots = "select l.id, l.lot_name, c.categ_name, l.start_price, l.image, l.step, l.start_price
         from lots l
         join categories c on l.category_id = c.id
         where date_format(date_close,'%Y-%m-%d') > date_format(SYSDATE(),'%Y-%m-%d')
