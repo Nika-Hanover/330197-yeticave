@@ -46,7 +46,7 @@ order by b.date_bet desc;
 
 
 select * from lots;
-delete from lots where id =32;
+delete from lots where id =26;
 
 select l.id, l.lot_name, l.start_price, max(b.amount) current_price
 from lots l

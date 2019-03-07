@@ -3,9 +3,6 @@ define('BASE_DIR', realpath('..'));
 require_once('../functions.php');
 require_once('../connect.php');
 
-$is_auth = rand(0, 1);
-$user_name = 'Nika'; // укажите здесь ваше имя
-
 /*Variables for saving data from submited form*/
 $email = $_POST['email'] ?? '';
 $user_name = $_POST['name'] ?? '';
@@ -25,15 +22,14 @@ if($email){
 	$email_num = mysqli_num_rows($res_email);
 }
 
-if (!$res_categories || $cat_num == 0) {
-    if ($cat_num == 0) $error = 'Categories quantity is 0.';
+if (!$res_categories || $cat_num === 0) {
+    if ($cat_num === 0) $error = 'Categories quantity is 0.';
     else $error = mysqli_error($connect);
     $page_content = include_template('error.php',['error' => $error]);
     $data = [
         'content' => $page_content,
         'title' => "Главная",
-        'is_auth' => $is_auth,
-        'user_name' => '',
+        'user_name' => $user_name,
         'category' => []
     ];
     header($_SERVER['SERVER_PROTOCOL']." 404 Not Found");
@@ -44,7 +40,7 @@ if (!$res_categories || $cat_num == 0) {
 
 $category = mysqli_fetch_all($res_categories, MYSQLI_ASSOC);
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $register = $_POST;
     $required_field = ['email', 'password', 'name', 'message'];
     $errors = [];
@@ -91,10 +87,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	        $file_name = "";
 	        $file_url = "";
 	    }
-	    elseif ($file_type == 'image/png') {
+	    elseif ($file_type === 'image/png') {
             $file_name = uniqid().'.png';
         }
-        elseif ($file_type == 'image/jpeg') {
+        elseif ($file_type === 'image/jpeg') {
             $file_name = uniqid().'.jpeg';
         }
 
@@ -120,7 +116,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $data = [
         'content' => $page_content,
         'title' => "Главная",
-        'is_auth' => $is_auth,
         'user_name' => $user_name,
         'category' => $category
         ];
@@ -157,7 +152,6 @@ $page_content = include_template('sign_up.php', ['category' => $category,
 $data = [
         'content' => $page_content,
         'title' => "Главная",
-        'is_auth' => $is_auth,
         'user_name' => $user_name,
         'category' => $category
     ];

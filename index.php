@@ -15,7 +15,7 @@ $query_lots = "select l.id, l.lot_name, c.categ_name, l.start_price, l.image, l.
         from lots l
         join categories c on l.category_id = c.id
         where date_format(date_close,'%Y-%m-%d') > date_format(SYSDATE(),'%Y-%m-%d')
-        order by date_creation desc
+        order by l.date_creation desc
         limit 6";
 $query_categories = "select categ_name from categories";
 

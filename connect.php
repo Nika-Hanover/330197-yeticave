@@ -7,8 +7,7 @@ if($connect == false) {
     $data = [
         'content' => $page_content,
         'title' => "Главная",
-        'is_auth' => $is_auth,
-        'user_name' => '',
+        'user_name' => $user_name,
         'category' => []
     ];
     header($_SERVER['SERVER_PROTOCOL']." 404 Not Found");

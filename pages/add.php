@@ -5,6 +5,7 @@ require_once('../connect.php');
 session_start();
 
 $user_name = $_SESSION['user']['user_name'] ?? '';
+$user_id = $_SESSION['user']['id'] ?? '';
 date_default_timezone_set('Europe/Kiev');
 $current_date = strtotime('now');
 $min_date = strtotime('tomorrow');
@@ -25,15 +26,14 @@ $res_categories = mysqli_query($connect, $query_categories);
 
 $cat_num = mysqli_num_rows($res_categories);
 
-if (!$res_categories || $cat_num == 0) {
-    if ($cat_num == 0) $error = 'Categories quantity is 0.';
+if (!$res_categories || $cat_num === 0) {
+    if ($cat_num === 0) $error = 'Categories quantity is 0.';
     else $error = mysqli_error($connect);
     $page_content = include_template('error.php',['error' => $error]);
     $data = [
         'content' => $page_content,
         'title' => "Главная",
-        'is_auth' => $is_auth,
-        'user_name' => '',
+        'user_name' => $user_name,
         'category' => []
     ];
     header($_SERVER['SERVER_PROTOCOL']." 404 Not Found");
@@ -44,7 +44,7 @@ if (!$res_categories || $cat_num == 0) {
 
 $category = mysqli_fetch_all($res_categories, MYSQLI_ASSOC);
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $lot = $_POST;
     $required_field = ['lot-name', 'category', 'message', 'lot-rate', 'lot-step', 'lot-date'];
     $errors = [];
@@ -82,10 +82,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $file_path = BASE_DIR.'/img/uploaded_lots/';
         $file_url = '/img/uploaded_lots/';
 
-        if ($file_type == 'image/png') {
+        if ($file_type === 'image/png') {
             $file_name = uniqid().'.png';
         }
-        elseif ($file_type == 'image/jpeg') {
+        elseif ($file_type === 'image/jpeg') {
             $file_name = uniqid().'.jpeg';
         }
         // if($file_type !== 'image/png' && $file_type !== 'image/jpeg'){
@@ -129,7 +129,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     $move_res = move_uploaded_file($_FILES['photo2']['tmp_name'], $file_path.$file_name);
     $sql = 'insert into lots (lot_name, description, image, start_price, step, category_id, date_close, author_id)
-            values (?,?,?,?,?,?,?,1)';
+            values (?,?,?,?,?,?,?,?)';
 
     $stmt = db_get_prepare_stmt($connect, $sql, [
         strip_tags($lot['lot-name']), 
@@ -138,7 +138,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         intval($lot['lot-rate']), 
         intval($lot['lot-step']), 
         intval($lot['category']),
-        date('Y-m-d', strtotime($lot['lot-date']))
+        date('Y-m-d', strtotime($lot['lot-date'])),
+        intval($user_id)
     ]);
     $res = mysqli_stmt_execute($stmt);
 

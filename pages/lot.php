@@ -31,8 +31,8 @@ $cat_num = mysqli_num_rows($res_categories);
 $lot_num = mysqli_num_rows($res_lot);
 $bets_num = mysqli_num_rows($res_bets);
 
-if (!$res_lot || !$res_categories || $cat_num == 0) {
-    if ($cat_num == 0) $error = 'Categories quantity is 0.';
+if (!$res_lot || !$res_categories || $cat_num === 0) {
+    if ($cat_num === 0) $error = 'Categories quantity is 0.';
     else $error = mysqli_error($connect);
     $page_content = include_template('error.php',['error' => $error]);
     $data = [
@@ -53,7 +53,7 @@ $bets = mysqli_fetch_all($res_bets, MYSQLI_ASSOC);
 
 $min_bet = ($lot['current_price'] ?? $lot['start_price']) + $lot['step'];
 
-if ($lot_num == 0){
+if ($lot_num === 0){
     header($_SERVER['SERVER_PROTOCOL']." 404 Not Found");
     $page_content = include_template('404.php',['category' => $category]);
     $data = [
@@ -67,7 +67,7 @@ if ($lot_num == 0){
     exit();
 }
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $bet = $_POST;
     $required_field = ['cost'];
     $errors = [];

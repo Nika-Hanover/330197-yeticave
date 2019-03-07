@@ -15,14 +15,13 @@ $res_categories = mysqli_query($connect, $query_categories);
 
 $cat_num = mysqli_num_rows($res_categories);
 
-if (!$res_categories || $cat_num == 0) {
-    if ($cat_num == 0) $error = 'Categories quantity is 0.';
+if (!$res_categories || $cat_num === 0) {
+    if ($cat_num === 0) $error = 'Categories quantity is 0.';
     else $error = mysqli_error($connect);
     $page_content = include_template('error.php',['error' => $error]);
     $data = [
         'content' => $page_content,
         'title' => "Главная",
-        'is_auth' => $is_auth,
         'user_name' => '',
         'category' => []
     ];
@@ -35,7 +34,7 @@ if (!$res_categories || $cat_num == 0) {
 $category = mysqli_fetch_all($res_categories, MYSQLI_ASSOC);
 
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $login = $_POST;
     $required_field = ['email', 'password'];
     $errors = [];
@@ -60,8 +59,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		$user = mysqli_fetch_assoc($res_user);
 
 		if(password_verify($login['password'], $user['pass'])){
-			ini_set('session.cookie_lifetime', 86400);
-			ini_set('session.gc_maxlifetime', 86400);
 			$_SESSION['user'] = $user;
 		}
 		else {
