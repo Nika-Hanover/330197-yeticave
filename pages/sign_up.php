@@ -17,14 +17,19 @@ $cat_num = mysqli_num_rows($res_categories);
 
 
 if($email){
+    $email = mysqli_real_escape_string($connect, $email);
 	$query_email = "select email from users where email = '$email'";
 	$res_email = mysqli_query($connect, $query_email);
 	$email_num = mysqli_num_rows($res_email);
 }
 
 if (!$res_categories || $cat_num === 0) {
-    if ($cat_num === 0) $error = 'Categories quantity is 0.';
-    else $error = mysqli_error($connect);
+    if ($cat_num === 0){
+        $error = 'Categories quantity is 0.';
+    }
+    else{
+        $error = mysqli_error($connect);
+    }
     $page_content = include_template('error.php',['error' => $error]);
     $data = [
         'content' => $page_content,

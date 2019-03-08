@@ -27,19 +27,23 @@ $res_categories = mysqli_query($connect, $query_categories);
 $cat_num = mysqli_num_rows($res_categories);
 
 if (!$res_categories || $cat_num === 0) {
-    if ($cat_num === 0) $error = 'Categories quantity is 0.';
-    else $error = mysqli_error($connect);
-    $page_content = include_template('error.php',['error' => $error]);
-    $data = [
-        'content' => $page_content,
-        'title' => "Главная",
-        'user_name' => $user_name,
-        'category' => []
-    ];
-    header($_SERVER['SERVER_PROTOCOL']." 404 Not Found");
-    $html = include_template('layout.php', $data);
-    echo $html;
-    exit();
+    if ($cat_num === 0) {
+        $error = 'Categories quantity is 0.';
+    } 
+    else {
+        $error = mysqli_error($connect);
+    }
+        $page_content = include_template('error.php',['error' => $error]);
+        $data = [
+            'content' => $page_content,
+            'title' => "Главная",
+            'user_name' => $user_name,
+            'category' => []
+        ];
+        header($_SERVER['SERVER_PROTOCOL']." 404 Not Found");
+        $html = include_template('layout.php', $data);
+        echo $html;
+        exit();
 }
 
 $category = mysqli_fetch_all($res_categories, MYSQLI_ASSOC);

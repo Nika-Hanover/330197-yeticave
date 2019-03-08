@@ -7,7 +7,7 @@ session_start();
 $user_name = $_SESSION['user']['user_name'] ?? '';
 
 /*Variables for saving data from submited form*/
-$email = $_POST['email'] ?? '';
+$email = isset($_POST['email']) ?? '';
 
 $query_categories = "select categ_name from categories";
 
@@ -16,8 +16,12 @@ $res_categories = mysqli_query($connect, $query_categories);
 $cat_num = mysqli_num_rows($res_categories);
 
 if (!$res_categories || $cat_num === 0) {
-    if ($cat_num === 0) $error = 'Categories quantity is 0.';
-    else $error = mysqli_error($connect);
+    if ($cat_num === 0){
+        $error = 'Categories quantity is 0.';
+    } 
+    else{
+        $error = mysqli_error($connect);
+    } 
     $page_content = include_template('error.php',['error' => $error]);
     $data = [
         'content' => $page_content,
@@ -67,7 +71,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	}
 	else {
 			$errors['email'] = "Данный email не зарегистрирован ни за одним из пользователей";
-		}
+	}
 		
     if(count($errors) > 0){
         $page_content = include_template('login.php',['category' => $category ,
@@ -84,9 +88,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         echo $html;
         exit();
     }
-    else {
-    	header("Location: /");
-    }
+
+    header("Location: /");
+    
     /*$page_content = include_template('succsess.php',['category' => $category]);*/
 }
 $page_content = include_template('login.php', ['category' => $category,

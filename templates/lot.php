@@ -19,10 +19,9 @@
           <p class="lot-item__description"><?= htmlspecialchars($lot['description'])?></p>
         </div>
         <div class="lot-item__right">
-          <?if(isset($_SESSION['user'])):?>
           <div class="lot-item__state">
             <div class="lot-item__timer timer">
-              10:54
+              <?= $interval_hours ?>
             </div>
             <div class="lot-item__cost-state">
               <div class="lot-item__rate">
@@ -33,6 +32,7 @@
                 Мин. ставка <span><?= price_format(htmlspecialchars($min_bet))?></span>
               </div>
             </div>
+            <?if(isset($_SESSION['user']) && $_SESSION['user']['id'] !== htmlspecialchars($lot['author_id']) && ((count($bets) >0 && $user_bets === 0) || count($bets) === 0) && $interval_hours !== '00:00'):?>
             <form class="lot-item__form <? (isset($errors) && count($errors) > 0) ? 'form--invalid' : ''?>" action="/pages/lot.php?id=<?= $lot['id'] ?>" method="post">
               <p class="lot-item__form-item form__item">
                 <label for="cost">Ваша ставка</label>
@@ -43,8 +43,8 @@
               </p>
               <button type="submit" class="button">Сделать ставку</button>
             </form>
+            <?endif?>
           </div>
-          <?endif?>
           <div class="history">
             <h3>История ставок (<span><?= count($bets) ?></span>)</h3>
             <table class="history__list">

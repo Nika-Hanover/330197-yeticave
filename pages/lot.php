@@ -5,15 +5,13 @@ require_once('../connect.php');
 session_start();
 
 $user_name = $_SESSION['user']['user_name'] ?? '';
-$id = intval($_GET['id']);
+$user_id = $_SESSION['user']['id'] ?? '';
+$id = isset($_GET['id']) ? ($_GET['id']) : '';
 
 date_default_timezone_set('Europe/Kiev');
-$current_date = strtotime('now');
-$next_midnight = strtotime('tomorrow');
-$interval_hours = date('H:i', ($next_midnight - $current_date));
 
 $query_categories = "select categ_name from categories";
-$query_lot = "select l.id, l.date_creation, l.lot_name, l.description, l.image, l.start_price, l.step, l.current_price, l.date_close, c.categ_name
+$query_lot = "select l.id, l.date_creation, l.lot_name, l.description, l.image, l.start_price, l.step, l.current_price, l.date_close, c.categ_name, l.author_id
               from lots l
               join categories c on l.category_id = c.id
               where l.id = '$id'";
@@ -22,18 +20,27 @@ $query_bets = "select b.id, b.date_bet, b.amount, b.user_id, b.lot_id, u.user_na
               join users u on b.user_id = u.id
               where b.lot_id = '$id'
               order by b.date_bet desc";
+$query__user_bets = "select distinct b.user_id
+                     from bets b
+                     where b.lot_id = '$id' and b.user_id = '$user_id'";
 
 $res_categories = mysqli_query($connect, $query_categories);
 $res_lot = mysqli_query($connect, $query_lot);
 $res_bets = mysqli_query($connect, $query_bets);
+$res_user_bets = mysqli_query($connect, $query__user_bets);
 
 $cat_num = mysqli_num_rows($res_categories);
 $lot_num = mysqli_num_rows($res_lot);
 $bets_num = mysqli_num_rows($res_bets);
+$user_bets = mysqli_num_rows($res_user_bets);
 
 if (!$res_lot || !$res_categories || $cat_num === 0) {
-    if ($cat_num === 0) $error = 'Categories quantity is 0.';
-    else $error = mysqli_error($connect);
+    if ($cat_num === 0){
+         $error = 'Categories quantity is 0.';
+    }
+    else{
+        $error = mysqli_error($connect);
+    } 
     $page_content = include_template('error.php',['error' => $error]);
     $data = [
           'content' => $page_content,
@@ -52,6 +59,7 @@ $lot = mysqli_fetch_assoc($res_lot);
 $bets = mysqli_fetch_all($res_bets, MYSQLI_ASSOC);
 
 $min_bet = ($lot['current_price'] ?? $lot['start_price']) + $lot['step'];
+$interval_hours = interval_date($lot['date_close']);
 
 if ($lot_num === 0){
     header($_SERVER['SERVER_PROTOCOL']." 404 Not Found");
@@ -104,8 +112,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     if(count($errors) > 0){
         $page_content = include_template('lot.php',['category' => $category ,
                                                     'lot' => $lot,
+                                                    'interval_hours' => $interval_hours,
                                                     'min_bet' => $min_bet,
                                                     'bets' => $bets,
+                                                    'user_bets' => $user_bets,
                                                     'errors' => $errors
                                                 ]);
         $data = [
@@ -139,9 +149,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         exit();
 }
 $page_content = include_template('lot.php',['category' => $category,
-                                              'lot' => $lot,
-                                              'min_bet' => $min_bet,
-                                              'bets' => $bets]);
+                                            'lot' => $lot,
+                                            'min_bet' => $min_bet,
+                                            'interval_hours' => $interval_hours,
+                                            'bets' => $bets,
+                                            'user_bets' => $user_bets]);
 $data = [
         'content' => $page_content,
         'title' => "Главная",
