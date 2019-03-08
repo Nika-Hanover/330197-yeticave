@@ -19,7 +19,7 @@
             <?foreach ($lots_list as $n => $lot):?>
                 <li class="lots__item lot">
                     <div class="lot__image">
-                        <img src="<?=htmlspecialchars($lot['image'])?>" width="350" height="260" alt="">
+                        <img src="<?=htmlspecialchars($lot['image'])?>" width="350" height="260" alt="<?=htmlspecialchars($lot['lot_name'])?>">
                     </div>
                     <div class="lot__info">
                         <span class="lot__category"><?=htmlspecialchars($lot['categ_name'])?></span>
@@ -29,7 +29,7 @@
                                 <span class="lot__amount">Стартовая цена</span>
                                 <span class="lot__cost"><?=price_format(htmlspecialchars($lot['start_price']))?></span>
                             </div>
-                            <div class="lot__timer timer">
+                            <div class="lot__timer timer <?= ((strtotime($lot['date_close'])-time()) < 86400) ? 'timer--finishing' : '' ?>">
                                 <?= interval_date($lot['date_close'])?>
                             </div>
                         </div>

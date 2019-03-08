@@ -15,8 +15,8 @@
                     $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/' ?>">
             <img src="/img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
         </a>
-        <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru">
-            <input type="search" name="search" placeholder="Поиск лота">
+        <form class="main-header__search" method="get" action="/pages/search.php">
+            <input type="search" name="search" placeholder="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : 'Поиск лота' ?>">
             <input class="main-header__search-btn" type="submit" name="find" value="Найти">
         </form>
         <a class="main-header__add-lot button" href="/pages/add.php">Добавить лот</a>

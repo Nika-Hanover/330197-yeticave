@@ -20,7 +20,7 @@
         </div>
         <div class="lot-item__right">
           <div class="lot-item__state">
-            <div class="lot-item__timer timer">
+            <div class="lot-item__timer timer <?= ((strtotime($lot['date_close'])-time()) < 86400) ? 'timer--finishing' : '' ?>">
               <?= $interval_hours ?>
             </div>
             <div class="lot-item__cost-state">

@@ -6,7 +6,7 @@ session_start();
 
 $user_name = $_SESSION['user']['user_name'] ?? '';
 $user_id = $_SESSION['user']['id'] ?? '';
-$id = isset($_GET['id']) ? ($_GET['id']) : '';
+$id = isset($_GET['id']) ? intval($_GET['id']) : '';
 
 date_default_timezone_set('Europe/Kiev');
 
