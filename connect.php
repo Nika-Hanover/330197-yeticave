@@ -1,5 +1,5 @@
 <?php
-$connect = mysqli_connect('localhost', 'root', '', 'yeticave');
+$connect = mysqli_connect('localhost', 'chubaka', '2@cnheYltkm#', 'yeticave');
 mysqli_set_charset($connect, "utf8");
 
 if($connect === false) {

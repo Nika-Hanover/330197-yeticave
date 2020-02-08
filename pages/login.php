@@ -1,5 +1,6 @@
 <?php
 define('BASE_DIR', realpath('..'));
+define('BASE_ADDRESS', '/YetiCave/330197-yeticave');
 require_once('../functions.php');
 require_once('../connect.php');
 session_start();

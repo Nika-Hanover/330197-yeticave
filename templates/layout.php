@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title><?=$title?></title>
-    <link href= "/css/normalize.min.css" rel="stylesheet">
-    <link href= "/css/style.css" rel="stylesheet">
+    <link href= "<?= BASE_ADDRESS ?>/css/normalize.min.css" rel="stylesheet">
+    <link href= "<?= BASE_ADDRESS ?>/css/style.css" rel="stylesheet">
 </head>
 <body>
 <div class="page-wrapper">
@@ -13,13 +13,13 @@
         <h1 class="visually-hidden">YetiCave</h1>
         <a class="main-header__logo" href="<?= 
                     $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/' ?>">
-            <img src="/img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
+            <img src="<?= BASE_ADDRESS ?>/img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
         </a>
         <form class="main-header__search" method="get" action="/pages/search.php">
             <input type="search" name="search" placeholder="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : 'Поиск лота' ?>">
             <input class="main-header__search-btn" type="submit" name="find" value="Найти">
         </form>
-        <a class="main-header__add-lot button" href="/pages/add.php">Добавить лот</a>
+        <a class="main-header__add-lot button" href="pages/add.php">Добавить лот</a>
 
         <nav class="user-menu">
         <!-- здесь должен быть PHP код для показа имени пользователя -->
@@ -28,15 +28,15 @@
                     <p><?=htmlspecialchars($_SESSION['user']['user_name'])?></p>
                 </div><br/>
                 <div class="user-menu__logged" style="display: block">
-                    <a href="/pages/logout.php">Выход</a>
+                    <a href="pages/logout.php">Выход</a>
                 </div>
             <?else:?>
                 <ul class="user-menu__list">
                    <li class="user-menu__item">
-                        <a href="/pages/sign_up.php">Регистрация</a>
+                        <a href="pages/sign_up.php">Регистрация</a>
                    </li>
                    <li class="user-menu__item">
-                        <a href="/pages/login.php">Вход</a>
+                        <a href="pages/login.php">Вход</a>
                    </li>
                 </ul>
             <?endif?>
@@ -54,7 +54,7 @@
             <!--заполните этот список из массива категорий-->
             <?foreach ($category as $n => $category_item):?>
                 <li class="nav__item">
-                    <a href="pages/all-lots.html"><?=htmlspecialchars($category_item['categ_name'])?></a>
+                    <a href="pages/all-lots.php"><?=htmlspecialchars($category_item['categ_name'])?></a>
                 </li>
             <?endforeach?>
         </ul>

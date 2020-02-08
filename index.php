@@ -1,5 +1,6 @@
 <?php
 define('BASE_DIR', realpath('.'));
+define('BASE_ADDRESS', '/YetiCave/330197-yeticave');
 require_once('functions.php');
 require_once('connect.php');
 session_start();
@@ -12,7 +13,7 @@ $current_date = strtotime('now');
 $query_lots = "select l.id, l.lot_name, c.categ_name, l.start_price, l.image, l.step, l.date_close
         from lots l
         join categories c on l.category_id = c.id
-        where date_format(date_close,'%Y-%m-%d') > date_format(SYSDATE(),'%Y-%m-%d')
+        /*where date_format(date_close,'%Y-%m-%d') > date_format(SYSDATE(),'%Y-%m-%d')*/
         order by l.date_creation desc
         limit 6";
 $query_categories = "select categ_name from categories";
